@@ -28,11 +28,11 @@ const unsigned long INTERVAL = 10000;
 unsigned long ptime[9];
 
 void setup() {
-  //Serial.begin(9600);
   //common
   NKROKeyboard.begin();
-  for (int i = 2; i < 11; i++) //set pinmode
+  for (int i = 2; i < 11; i++){ //set pinmode
     pinMode(i, INPUT_PULLUP);
+  }
   elapsed = micros();
 
   //scratch
@@ -41,8 +41,9 @@ void setup() {
   d2f = analogRead(A2) < THRESHOLD ? 0 : 1;
 
   //keys
-  for (int i = 0; i < 9; i++)
+  for (int i = 0; i < 9; i++){
     ptime[i] = 0;
+  }
 
 }
 
@@ -62,12 +63,7 @@ void loop() {
   int thres2 = d2f == 0 ? THRES_LOW : THRES_HIGH;
   d1l = analogRead(A1) < thres1 ? 0 : 1;
   d2l = analogRead(A2) < thres2 ? 0 : 1;
-  /*
-  Serial.print(analogRead(A1));
-  Serial.print(",1200,400,");
-  Serial.println(analogRead(A2));
-  */
-  int turn;
+
   bool triggered = false;
   int state[4] = {d1f, d1l, d2f, d2l};
   for (int i = 0; i < 8; i++) {
@@ -86,19 +82,16 @@ void loop() {
       //Right Turn
       NKROKeyboard.add(keys[0]);
       NKROKeyboard.remove(keys[1]);
-      turn = 1;
     } else {
       //Left Turn
       NKROKeyboard.add(keys[1]);
       NKROKeyboard.remove(keys[0]);
-      turn = -1;
     }
   } else {
     //No Input
     scrTimer = 0;
     NKROKeyboard.remove(keys[0]);
     NKROKeyboard.remove(keys[1]);
-    turn = 0;
   }
   d1f = d1l;
   d2f = d2l;
@@ -115,9 +108,7 @@ void loop() {
       }
       NKROKeyboard.remove(keys[i + 2]);
     }
-
   }
 
   NKROKeyboard.send();
-
 }
