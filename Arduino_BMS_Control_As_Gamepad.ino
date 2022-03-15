@@ -26,7 +26,7 @@ int list[8][4] = {
 };
 
 //keys
-const int INTERVAL = 10;
+const unsigned long INTERVAL = 10000; //minimum input interval in us
 unsigned long ptime[9];
 
 void setup() {
@@ -102,17 +102,17 @@ void loop() {
 
   //keys
   for (int i = 0; i < 9; i++) {
-    ptime[i]++;
+    ptime[i] = min(ptime[i] + tdif, INTERVAL);
     if (!digitalRead(i + 2)) {
       Gamepad.press(i + 1);
       ptime[i] = 0;
     } else {
-      if (ptime[i] < INTERVAL)return; //burst!
+      if (ptime[i] < INTERVAL){ //burst!
+        continue;
+      }
       Gamepad.release(i + 1);
     }
-
   }
 
   Gamepad.write();
-
 }
