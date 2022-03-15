@@ -68,17 +68,10 @@ void loop() {
   int state[4] = {d1f, d1l, d2f, d2l};
   for (int i = 0; i < 8; i++) {
     if (memcmp(list[i], state, sizeof(int) * 4) == 0) { //compare
-      if (i < 4) {
-        scrTimer = ACTIVE_TIME;
-        toRight = true;
-        triggered = true;
-        break;
-      } else {
-        scrTimer = ACTIVE_TIME;
-        toRight = false;
-        triggered = true;
-        break;
-      }
+      scrTimer = ACTIVE_TIME;
+      triggered = true;
+      toRight = i < 4;
+      break;
     }
   }
   if (!triggered) {
