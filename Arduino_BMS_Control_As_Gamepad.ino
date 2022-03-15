@@ -29,11 +29,13 @@ int list[8][4] = {
 const unsigned long INTERVAL = 10000; //minimum input interval in us
 unsigned long ptime[9];
 
+
 void setup() {
   //common
   Gamepad.begin();
-  for (int i = 2; i < 11; i++) //set pinmode
+  for (int i = 2; i < 11; i++){ //set pinmode
     pinMode(i, INPUT_PULLUP);
+  }
   elapsed = micros();
 
   //scratch
@@ -42,9 +44,9 @@ void setup() {
   d2f = analogRead(A2) < THRESHOLD ? 0 : 1;
 
   //keys
-  for (int i = 0; i < 9; i++)
+  for (int i = 0; i < 9; i++){
     ptime[i] = 0;
-
+  }
 }
 
 void loop() {
